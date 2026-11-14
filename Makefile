@@ -6,7 +6,7 @@
 #    By: ilazar <corach.am@gmail.com>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/11/13 13:16:37 by ilazar            #+#    #+#              #
-#    Updated: 2026/11/13 13:16:41 by ilazar           ###   ########.fr        #
+#    Updated: 2026/11/14 19:11:14 by ilazar           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCS		= ft_strlen.s \
 			  ft_strcmp.s \
 			  ft_write.s \
 			  ft_read.s \
-			  ft_strdup.s \
+			  #ft_strdup.s \
 			  ft_calloc.s
 
 # Bonus sources (must end in _bonus.s)

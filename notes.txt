@@ -1,5 +1,45 @@
 
+assembly variables:
 
+calling conventions:
+Argument	Register
+1st	        rdi
+2nd	        rsi
+3rd	        rdx
+4th	        rcx
+5th	        r8
+6th	        r9
+return value	rax
+
+Free to use (scratch)
+rax, rcx, rdx, rsi, rdi, r8–r11
+
+
+Must restore if you use them
+rbx, rbp, r12–r15
+
+
+different sizes of same variables
+example:
+mov rdx, 0x1122334455667788
+; rdx = 0x1122334455667788
+; edx =         0x55667788
+; dx  =             0x7788
+; dl  =               0x88
+
+The same pattern for every register:
+64-bit	32-bit	16-bit	8-bit (low)
+rax	eax	ax	al
+rbx	ebx	bx	bl
+rcx	ecx	cx	cl
+rdx	edx	dx	dl
+rsi	esi	si	sil
+rdi	edi	di	dil
+r8	r8d	r8w	r8b
+… r15	r15d	r15w	r15b
+
+
+run docker on mac
 
 docker start libasm
 

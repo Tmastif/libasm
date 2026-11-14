@@ -6,18 +6,123 @@
 /*   By: ilazar <corach.am@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/13 13:37:38 by ilazar            #+#    #+#             */
-/*   Updated: 2026/11/13 13:39:04 by ilazar           ###   ########.fr       */
+/*   Updated: 2026/11/14 18:33:00 by ilazar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
+#include <fcntl.h>
 #include "libasm.h"
+
+void test_strlen(void);
+void test_strcpy(void);
+void test_strcmp(void);
+void test_write(void);
+void test_read(void);
+
 
 int main(void)
 {
+    // test_strlen();
+    // test_strcpy();
+    // test_strcmp();
+    test_write();
+    test_read();
+
+
+    
+    return 0;
+}
+
+void test_strlen(void)
+{
+    printf("\nTesting ft_strlen...\n");
     const char *tests[] = {"", "a", "hello", "A fox doesn't need an umbrella"};
     for (int i = 0; i < 4; i++)
         printf("[%s] mine=%zu real=%zu\n", tests[i], ft_strlen(tests[i]), strlen(tests[i]));
-    return 0;
+    printf("\n");
+}
+
+void test_strcpy(void)
+{
+    printf("\nTesting ft_strcpy...\n");
+    const char *tests[] = {"", "a", "hello", "A fox doesn't need an umbrella"};
+    for (int i = 0; i < 4; i++)
+    {
+        char mine[100];
+        char real[100];
+        char *r = ft_strcpy(mine, tests[i]);
+        strcpy(real, tests[i]);
+        printf("[%s] mine=[%s] real=[%s] result=%s return same=%s\n", tests[i], mine, real,
+        strcmp(mine, real) == 0 ? "OK" : "KO", r == mine ? "OK" : "KO");
+    }
+    printf("\n");
+}
+void test_strcmp(void)
+{
+    printf("\nTesting ft_strcmp...\n");
+    const char *s1[] = {"abc", "abc", "abd", "", "a", "\200", "hello"};
+    const char *s2[] = {"abc", "abd", "abc", "a", "", "a", "hell"};
+    for (int i = 0; i < 7; i++)
+    {
+        int m = ft_strcmp(s1[i], s2[i]);
+        int r = strcmp(s1[i], s2[i]);
+        printf("[%s] vs [%s] mine=%d real=%d result=%s\n", s1[i], s2[i], m, r,
+        ((m > 0) == (r > 0) && (m < 0) == (r < 0)) ? "OK" : "KO");
+    }
+    printf("\n");
+}
+
+void test_write(void)
+{
+    printf("\nTesting ft_write...\n");
+    const char *tests[] = {"", "a\n", "hello\n", "A fox doesn't need an umbrella\n"};
+    for (int i = 0; i < 4; i++)
+    {
+        fflush(stdout);
+        ssize_t m = ft_write(1, tests[i], strlen(tests[i]));
+        ssize_t r = write(1, tests[i], strlen(tests[i]));
+        printf("mine=%zd real=%zd result=%s\n", m, r, m == r ? "OK" : "KO");
+    }
+    errno = 0;
+    ssize_t m = ft_write(-1, "x", 1);
+    int m_errno = errno;
+    errno = 0;
+    ssize_t r = write(-1, "x", 1);
+    int r_errno = errno;
+    printf("[bad fd] mine=%zd errno=%d real=%zd errno=%d result=%s\n", m, m_errno, r, r_errno,
+    (m == r && m_errno == r_errno) ? "OK" : "KO");
+    printf("\n");
+}
+
+void test_read(void)
+{
+    printf("\nTesting ft_read...\n");
+    const size_t sizes[] = {0, 1, 10, 100};
+    for (int i = 0; i < 4; i++)
+    {
+        char mine[101] = {0};
+        char real[101] = {0};
+        int fd1 = open("libasm.h", O_RDONLY);
+        int fd2 = open("libasm.h", O_RDONLY);
+        ssize_t m = ft_read(fd1, mine, sizes[i]);
+        ssize_t r = read(fd2, real, sizes[i]);
+        close(fd1);
+        close(fd2);
+        printf("[%zu bytes] mine=%zd real=%zd result=%s\n", sizes[i], m, r,
+        (m == r && memcmp(mine, real, sizeof(mine)) == 0) ? "OK" : "KO");
+    }
+    errno = 0;
+    char buf[10];
+    ssize_t m = ft_read(-1, buf, 10);
+    int m_errno = errno;
+    errno = 0;
+    ssize_t r = read(-1, buf, 10);
+    int r_errno = errno;
+    printf("[bad fd] mine=%zd errno=%d real=%zd errno=%d result=%s\n", m, m_errno, r, r_errno,
+    (m == r && m_errno == r_errno) ? "OK" : "KO");
+    printf("\n");
 }
