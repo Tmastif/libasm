@@ -47,7 +47,8 @@ int     	        4 bytes	    ecx, edx, eax…
 size_t, pointers	8 bytes	    rcx, rdx, rax…
 
 
-
+run test
+cc -Wall -Wextra -Werror main.c -L. -lasm -o test
 
 
 
