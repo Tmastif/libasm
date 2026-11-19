@@ -24,15 +24,15 @@ extern ft_strcpy            ; my function: char *ft_strcpy(char *dst, const char
 ft_strdup:
     push rdi ; keep s safe and align stack
     call ft_strlen ; uses rdi, result is on rax
-    mov rdi, rax ; add space for null terminator
-    inc rdi
+    mov rdi, rax
+    inc rdi ; add space for null terminator
     call malloc wrt ..plt ; rax = dup - new memory, or 0 if failed
     test rax, rax ; check if null
     jz .fail
     mov rdi, rax ; new memory add in rdi for strcpy
     mov rsi, [rsp] ; read top of the stack, where s is kept. rsi is ready for strcopy
     call ft_strcpy ; returns dst the new pointer to rax
-    pop rdi ; undo the push
+    pop rdi ; aligns stack
     ret ; caller gets copy
 .fail:
     pop rdi
