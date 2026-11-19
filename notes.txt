@@ -20,12 +20,7 @@ rbx, rbp, r12–r15
 
 
 different sizes of same variables
-example:
-mov rdx, 0x1122334455667788
-; rdx = 0x1122334455667788
-; edx =         0x55667788
-; dx  =             0x7788
-; dl  =               0x88
+rax (8 bytes), eax (4), ax (2), al (1)
 
 The same pattern for every register:
 64-bit	32-bit	16-bit	8-bit (low)
