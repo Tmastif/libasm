@@ -1,5 +1,5 @@
 
-assembly variables:
+assembly variables: 16 in total global 64 bit registers
 
 calling conventions:
 Argument	    Register
@@ -14,9 +14,17 @@ return value	rax
 Free to use (scratch)
 rax, rcx, rdx, rsi, rdi, r8–r11
 
+the caller saves them if it needs the value after the call.
+- Can use them freely, without saving anything.
+- But if a function is called, their values are gone afterwards.
+- If the caller needs one after a call, the caller must save it first. (pushing and popping)
 
-Must restore if you use them
+Callee-saved
+the callee saves them, if it wants to use the register
 rbx, rbp, r12–r15
+- These survive calls: the function you call promises not to change them.
+- But to use one, we must save the caller’s value first (push) and restore it before returning (pop).
+because the caller functions might be using them.
 
 
 different sizes of same variables
