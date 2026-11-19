@@ -14,7 +14,6 @@ section .text           ; code goes in the .text section
 global ft_strlen        ; make the symbol visible to the linker (so C can call it)
 
 ft_strlen:
-    ; 
 
     xor rax, rax        ; clear rax (this will hold the length)
 .loop:

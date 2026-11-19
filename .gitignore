@@ -2,3 +2,8 @@
 
 
 # notes.txt
+# build outputs
+*.o
+libasm.a
+test
+libasm.pdf

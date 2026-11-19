@@ -15,6 +15,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <stdlib.h>
+#include <stdint.h>
 #include "libasm.h"
 
 void test_strlen(void);
@@ -22,6 +24,8 @@ void test_strcpy(void);
 void test_strcmp(void);
 void test_write(void);
 void test_read(void);
+void test_strdup(void);
+void test_calloc(void);
 
 
 int main(void)
@@ -31,6 +35,8 @@ int main(void)
     // test_strcmp();
     test_write();
     test_read();
+    test_strdup();
+    test_calloc();
 
 
     
@@ -124,5 +130,45 @@ void test_read(void)
     int r_errno = errno;
     printf("[bad fd] mine=%zd errno=%d real=%zd errno=%d result=%s\n", m, m_errno, r, r_errno,
     (m == r && m_errno == r_errno) ? "OK" : "KO");
+    printf("\n");
+}
+
+void test_strdup(void)
+{
+    printf("\nTesting ft_strdup...\n");
+    const char *tests[] = {"", "a", "hello", "A fox doesn't need an umbrella"};
+    for (int i = 0; i < 4; i++)
+    {
+        char *m = ft_strdup(tests[i]);
+        char *r = strdup(tests[i]);
+        printf("[%s] mine=[%s] real=[%s] result=%s new_ptr=%s\n", tests[i], m, r,
+        (m && strcmp(m, r) == 0) ? "OK" : "KO", (m && m != tests[i]) ? "OK" : "KO");
+        free(m);
+        free(r);
+    }
+    printf("\n");
+}
+
+void test_calloc(void)
+{
+    printf("\nTesting ft_calloc...\n");
+    const size_t nmemb[] = {0, 1, 10, 5, 100};
+    const size_t size[] = {0, 1, 1, 4, 8};
+    for (int i = 0; i < 5; i++)
+    {
+        unsigned char *m = ft_calloc(nmemb[i], size[i]);
+        int zeros = 1;
+        for (size_t j = 0; m && j < nmemb[i] * size[i]; j++)
+            if (m[j] != 0)
+                zeros = 0;
+        printf("[%zu x %zu] ptr=%s all_zero=%s\n", nmemb[i], size[i],
+        m ? "OK" : "NULL", zeros ? "OK" : "KO");
+        free(m);
+    }
+    errno = 0;
+    void *m = ft_calloc(SIZE_MAX, 2);
+    int m_errno = errno;
+    printf("[overflow] mine=%p errno=%d result=%s\n", m, m_errno,
+    (m == NULL && m_errno == ENOMEM) ? "OK" : "KO");
     printf("\n");
 }

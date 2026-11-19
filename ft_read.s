@@ -28,11 +28,12 @@ ft_read:
     js .error
     ret
 .error:
-    push rbx ; save rbx because we will use it to store errno
+    push rbx ; save rbx because later will be used to store errno
     neg rax ; make rax positive
-    mov rbx, rax ; save the error number in rbx
-    call __errno_location wrt ..plt ; get pointer to errno
+    mov rbx, rax ; keep the error number in rbx to survive the call
+    call __errno_location wrt ..plt ; get pointer of errno to rax 
     mov [rax], ebx ; set the error number to the memory at this adress
     mov rax, -1 ; return -1 to indicate error
     pop rbx ; restore rbx
     ret
+    

@@ -2,13 +2,13 @@
 assembly variables:
 
 calling conventions:
-Argument	Register
-1st	        rdi
-2nd	        rsi
-3rd	        rdx
-4th	        rcx
-5th	        r8
-6th	        r9
+Argument	    Register
+1st	            rdi
+2nd	            rsi
+3rd	            rdx
+4th	            rcx
+5th	            r8
+6th	            r9
 return value	rax
 
 Free to use (scratch)
@@ -37,6 +37,18 @@ rsi	esi	si	sil
 rdi	edi	di	dil
 r8	r8d	r8w	r8b
 … r15	r15d	r15w	r15b
+
+
+Match the register size to the C type you’re reading or writing:
+
+C type	            Size	    Register part
+char	            1 byte	    cl, dl, al…
+int     	        4 bytes	    ecx, edx, eax…
+size_t, pointers	8 bytes	    rcx, rdx, rax…
+
+
+
+
 
 
 run docker on mac
